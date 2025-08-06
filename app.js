@@ -24,9 +24,72 @@ function a() {
 }
 
 a();
-
+window.a();
 // this subtitution
 /*
     if the value of 'this' keyowrd undefined or null
     this will be  replaced with global object -- only in non-strict mode
 */
+
+// function and method
+// if you if you make. funciton as a part of object then it is known as menthod.
+
+const obj = {
+  a: 10,
+  x: function () {
+    // x is an method of object obj
+    console.log(this.a); // this --> entire obj and this.a === this.obj.a `this.a means object of a`
+  },
+};
+
+obj.x();
+
+// call apply bind --- used  when you have to share the method.
+
+const emp = {
+  name: 'kashi',
+  printRole: function () {
+    console.log(this); // kashi
+  },
+};
+emp.printRole();
+
+const emp2 = {
+  name: 'bhushan',
+};
+
+emp.printRole.call(emp2); // bhushan
+
+// value of this can be modified using call apply and bind menthod
+
+// arrow function // they dont have their own this binding.
+// arrow funciton do not have their own this, --- arrow funcitons take the value of their laxical env where they are enclosed.
+
+const example = {
+  a: 100,
+  y: function () {
+    console.log(this); // normal fucntion.
+  },
+};
+example.y();
+
+const example2 = {
+  a: 100,
+  y2: () => {
+    console.log(this); // arrow function dose not have their own this so it takes the value if it's laxical env where they are enclosed here it's laxical scope is the global object, so this is pointing to the global window object.
+  },
+};
+example2.y2();
+
+// senario
+const ex2 = {
+  a: 'radha',
+    b: function () {
+      // enclosing laxical context
+    const c = () => {
+      console.log(this); // this arrow function is an part of the method b of object ex2 so now it will point to the current object as it's laxically enclosed with the method of the objet ex2 which is b.
+    };
+    c();
+  },
+};
+ex2.b();
