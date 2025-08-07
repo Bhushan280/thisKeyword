@@ -84,8 +84,8 @@ example2.y2();
 // senario
 const ex2 = {
   a: 'radha',
-    b: function () {
-      // enclosing laxical context
+  b: function () {
+    // enclosing laxical context
     const c = () => {
       console.log(this); // this arrow function is an part of the method b of object ex2 so now it will point to the current object as it's laxically enclosed with the method of the objet ex2 which is b.
     };
@@ -93,3 +93,62 @@ const ex2 = {
   },
 };
 ex2.b();
+
+const outerThis = this;
+
+// const func = () => {
+//   console.log(this === outerThis);
+// };
+
+// new func();
+// console.log(func.bind({})());
+// func.call(null); //true
+// func.apply(undefined); //true
+
+/*
+1- The value of this is usually determined by a functions execution context.
+
+2- In the global scope, this refers to the global object (the window object).
+
+3- The object that is standing before the dot is what the this keyword will be bound to.
+
+4- We can set the value of this explicitly with call(), bind(), and apply()
+
+5- When the new keyword is used(a constructor), this is bound to the new object being created.
+
+6- Arrow Functions don’t bind this — instead, this is bound lexically (i.e. based on the original context)
+*/
+console.log('callbacks');
+function logThis() {
+  //   'use strict';
+  console.log(this);
+}
+
+[1, 2, 3].forEach(logThis); // undefined, undefined, undefined
+[1, 2, 3].forEach(logThis, { name: 'obj' });
+
+function bar() {
+  console.log(Object.prototype.toString.call(this));
+}
+
+bar.call(7); // [object Number]
+bar.call('foo'); // [object String]
+bar.call(undefined); // [object Window]
+
+// When called as a listener, turns the related element blue
+function bluify(e) {
+  // Always true
+  console.log(this === e.currentTarget);
+  // true when currentTarget and target are the same object
+  console.log(this === e.target);
+  this.style.backgroundColor = '#A5D9F3';
+}
+
+// Get a list of every element in the document
+const elements = document.getElementsByTagName('*');
+
+// Add bluify as a click listener so when the
+// element is clicked on, it turns blue
+for (const element of elements) {
+  element.addEventListener('click', bluify, false);
+}
